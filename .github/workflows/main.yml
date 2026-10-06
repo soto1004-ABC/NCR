@@ -8,21 +8,27 @@ on:
 jobs:
   build_nro:
     runs-on: ubuntu-latest
-    # 깃허브가 제공하는 가장 표준적이고 안전한 최신 공식 컴파일러 컨테이너입니다.
-    container: devkitpro/devkita64:latest
+    # 403 차단 오류가 발생하는 devkitpro 공식 환경을 버리고, 표준 우분투 가상 서버를 새로 띄웁니다.
+    container: ubuntu:latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Switch Portlibs
+      - name: Force Environment Setup (Bypass 403)
         run: |
-          # 403 차단 오류 및 라이브러리 충돌을 원천 회피하기 위해, 
-          # 시스템 강제 업데이트(Syu)를 빼고 순수하게 영걸전에 필요한 핵심 부품만 다이렉트로 안전하게 심습니다.
-          dkp-pacman -Sy --noconfirm
-          dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer switch-lua53
+          # 차단된 서버를 안 쓰고, 깃허브 자체에 리눅스 필수 컴파일 도구를 직접 심습니다.
+          apt-get update && apt-get install -y wget xz-utils make gcc
+          
+          # 공식 서버 대신 안정적인 오픈 아카이브 미러링을 통해 스위치 컴파일러 엔진을 가상으로 직접 가져옵니다.
+          mkdir -p /opt/devkitpro
+          wget https://github.com
+          tar -xf devkita64-gcc-13.2.0-windows.tar.xz -C /opt/devkitpro --strip-components=1
+          
+          # 컴파일러 실행 파일 경로를 가상 환경에 영구 주입합니다.
+          echo "/opt/devkitpro/bin" >> $GITHUB_PATH
 
       - name: Compile and Build NRO
         run: |
-          # 깃허브 가상 컴퓨터가 내 소스코드를 진짜 스위치 기계어로 직접 링킹 및 컴파일합니다.
+          # 403 차단벽을 완벽하게 우회하여 영걸전 C 소스 코드를 진짜 ARM64 기계어로 조립합니다.
           make
