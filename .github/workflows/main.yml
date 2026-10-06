@@ -17,7 +17,7 @@ jobs:
       - name: Install Switch Portlibs
         run: |
           dkp-pacman -Syu --noconfirm && \
-          dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer switch-lua
+          dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer switch-lua52
 
       - name: Compile and Build NRO
         run: |
