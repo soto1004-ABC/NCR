@@ -1,0 +1,24 @@
+Phase 3 - PNG-in-IDX/GRP loader
+
+확인된 4.0 그래픽 형식:
+- IDX: little-endian uint32 누적 종료 오프셋 배열
+- GRP: 각 IDX 구간에 PNG payload 저장
+- ui/hdgrp/wmap/smap/mmap/mbig/eft에서 확인
+- IDX 마지막 값 == GRP 파일 크기
+
+구현:
+- PicLoadFile: IDX/GRP를 bank id별 로드
+- PicLoadCache: pic 인자/2 -> PNG 메모리 디코드 -> SDL_Texture 캐시 -> 렌더링
+- PicGetXY: 디코드된 PNG의 실제 width/height 반환
+- PNG 앞 padding이 있는 레코드를 위해 PNG signature 검색 후 IMG_Load_RW 사용
+- Switch config를 원본 config.lua의 나머지 설정과 합쳐 누락 CONFIG 필드 문제 보완
+
+아직 미구현/다음 단계:
+- DrawStr (SDL_ttf + 원본 문자 인코딩 처리)
+- LoadSur/SaveSur/FreeSur/Background/ShowSlow
+- MIDI/WAV
+- KoSaveIO 실제 저장 I/O
+- 일부 newgame.grp 레코드는 PNG 이외 데이터일 수 있어 별도 조사 필요
+
+주의:
+이 환경에는 devkitA64/libnx가 없어 NRO 링크 테스트는 아직 수행하지 못함.

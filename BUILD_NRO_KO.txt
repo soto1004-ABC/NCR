@@ -1,0 +1,9 @@
+영걸전복각 유광판 4.0 - Switch NRO 빌드
+
+목표 산출물: yingjie4.nro
+
+이 프로젝트는 GitHub Actions의 devkitpro/devkita64 공식 Docker 환경에서 빌드하도록 구성했습니다.
+Actions -> Build Switch NRO -> Run workflow 실행 후 yingjie4-nro artifact를 받습니다.
+
+주의: 현재 포팅 엔진은 Phase 3 수준입니다. NRO 생성 성공과 게임 완전 구동은 별개입니다.
+미구현/불완전: DrawStr 한글, Surface 저장/복원, 사운드, KoSaveIO 등.

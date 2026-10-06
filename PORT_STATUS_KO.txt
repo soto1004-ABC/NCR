@@ -1,0 +1,19 @@
+영걸전복각 유광판 4.0 - Switch 포팅 Phase 2
+
+구현됨:
+- libnx + SDL2 부트스트랩
+- Lua 5.2 상태 생성 및 script/jymain.lua/JY_Main() 진입
+- Switch용 POSIX/RomFS 경로 config_switch.lua
+- lib.* 25개 심볼 등록
+- GetTime/Delay/ShowSurface/FillColor/DrawRect/SetClip/GetKey 기본 구현
+- A/B/D-pad 기본 키 매핑
+
+아직 미구현(게임 화면 진입에 필수):
+- GRP/IDX 이미지 디코더: PicLoadFile/PicLoadCache/PicGetXY
+- TTF 문자열 렌더링: DrawStr/CharSet
+- MIDI/WAV 재생
+- SaveSur/LoadSur surface cache
+- KoSaveIO 실제 포맷
+- 마우스/터치 좌표 매핑
+
+현재 단계는 '컴파일 가능한 호환층의 골격'을 목표로 한다. 실제 NRO 빌드/실기 테스트 전에는 실행 가능하다고 간주하지 말 것.
