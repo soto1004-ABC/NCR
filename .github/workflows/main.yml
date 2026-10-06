@@ -17,14 +17,8 @@ jobs:
       - name: Install Switch Portlibs
         run: |
           dkp-pacman -Syu --noconfirm && \
-          dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer switch-lua52
+          dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer
 
       - name: Compile and Build NRO
         run: |
           make
-
-      - name: Upload Output Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: yingjie4-nro-build
-          path: yingjie4.nro
