@@ -8,8 +8,8 @@ on:
 jobs:
   build_nro:
     runs-on: ubuntu-latest
-    # 외부 서버 403 차단 오류가 나지 않는 안정적인 고정 미러링 컨테이너를 지정합니다.
-    container: devkitpro/devkita64:20240304
+    # 깃허브가 제공하는 가장 표준적이고 안전한 최신 공식 컴파일러 컨테이너입니다.
+    container: devkitpro/devkita64:latest
 
     steps:
       - name: Checkout Repository
@@ -17,11 +17,12 @@ jobs:
 
       - name: Install Switch Portlibs
         run: |
-          # 403 오류를 방지하기 위해 저장소 데이터베이스만 강제 미러링 전환 후 필요한 부품을 다이렉트로 강제 설치합니다.
+          # 403 차단 오류 및 라이브러리 충돌을 원천 회피하기 위해, 
+          # 시스템 강제 업데이트(Syu)를 빼고 순수하게 영걸전에 필요한 핵심 부품만 다이렉트로 안전하게 심습니다.
           dkp-pacman -Sy --noconfirm
           dkp-pacman -S --noconfirm switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer switch-lua53
 
       - name: Compile and Build NRO
         run: |
-          # 깃허브 서버 안에서 실제 ARM64 기계어로 영걸전 C 코드를 완벽하게 조립합니다.
+          # 깃허브 가상 컴퓨터가 내 소스코드를 진짜 스위치 기계어로 직접 링킹 및 컴파일합니다.
           make
